@@ -1,0 +1,10 @@
+import { User } from '../entity/User';
+
+
+export interface InterfacePedido {
+    id      : number;
+    user    : User;
+    estado  : Boolean;
+    fecha   : Date;
+    lugar   : String;
+}

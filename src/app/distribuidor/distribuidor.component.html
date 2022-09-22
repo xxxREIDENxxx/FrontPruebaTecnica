@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Bienvenido:  {{usuario.username}} </h1>
+        </div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="#" (click)="logout()">Cerrar sesion</a>
+        </div>
+    </div>
+    <!-- <div class="row" *ngIf="loading">
+        <div class="col-md-12">
+            <div class="spinner-border text-info float-right" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+
+        </div>
+        <br>
+        <br>
+    </div> -->
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead class="thead-dark"> 
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Lugar</th>
+                        <th>Estado</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pedido of pedidos">
+                        <td>
+                            {{pedido.fecha}}
+                        </td>
+                        <td>
+                            {{pedido.lugar}}
+                        </td>
+                        
+                        <td *ngIf="pedido.estado == true">
+                            Entregado
+                        </td>
+                        <td *ngIf="pedido.estado == false">
+                            No entregado
+                        </td>
+                        <td><button class="btn btn-success" (click)="agregar(pedido)">Confirmar Entrega</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+   
+</div>

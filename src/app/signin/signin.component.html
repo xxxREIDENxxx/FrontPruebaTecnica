@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Crea tu Cuenta!</h1>
+        </div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="loading">
+        <div class="col-md-12">
+            <div class="spinner-border text-info float-right" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+
+        </div>
+        <br>
+        <br>
+    </div>
+
+    <form (ngSubmit)="crear()" id="crear">
+        <div class="row">
+            <div class="col-md-12">
+                <input type="text" [(ngModel)]="usuario.username" [ngModelOptions]="{standalone: true}" placeholder="name" class="form-control" required>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="text" [(ngModel)]="usuario.name" [ngModelOptions]="{standalone: true}" placeholder="username" class="form-control" required>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="password" [(ngModel)]="usuario.password" [ngModelOptions]="{standalone: true}" placeholder="password" class="form-control" required>
+            </div>
+        </div>
+       
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <input class="btn btn-success float-right" type="submit" value="crear">
+            </div>
+        </div>
+    </form>  
+        
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="float-right"><a href="#" (click)="regresar()">Regresar</a>.</label>
+        </div>
+    </div>
+</div>

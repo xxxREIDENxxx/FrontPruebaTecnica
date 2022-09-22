@@ -1,0 +1,157 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Bienvenido Admin:</h1>
+        </div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+    </div>
+    <div class="row" *ngIf="loading">
+        <div class="col-md-12">
+            <div class="spinner-border text-info float-right" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+
+        </div>
+        <br>
+        <br>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="#" (click)="logout()">Cerrar sesion</a>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Lugar</th>
+                    <th scope="col">Filtro por</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let pedido of pedidos" >
+                    <td >
+                        {{pedido.user}}
+                    </td>
+                    <td>
+                        {{pedido.fecha}}
+                    </td>
+                    <td *ngIf="pedido.estado == true">
+                        Pedido Entregado
+                    </td>
+                    <td *ngIf="pedido.estado == false">
+                        Pedido no Entregado
+                    </td>
+                    <td>
+                        {{pedido.lugar}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Rol</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let usuario of user">
+                        <td>
+                            {{usuario.id}}
+                        </td>
+                        <td>
+                            {{usuario.username}}
+                        </td>
+                        <td *ngIf="usuario.rol == true">
+                            Distribuidor
+                        </td>
+                        <td *ngIf="usuario.rol == false">
+                            Administrador
+                        </td>
+                      </tr>
+                     
+                    </tbody>
+                  </table>
+            </div>
+            <br>
+            <br>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Pedido Nuevo: <button class="btn btn-success" (click)="agregar()">Agregar Pedido</button></h2>
+            </div>
+        </div>
+    </div>
+    <form (ngSubmit)="crearPedido(formTemplate)" #formTemplate id="crear" *ngIf="crear" >
+        <br>
+        <div class="row" >
+            <div class="col-md-12">Seleccione al Distribuidor:
+                <div class="input-group mb-3" >
+                    <div class="input-group-append">
+                        <label class="input-group-text" for="inputGroupSelect02">Usuario</label>
+                      </div>
+                    <select class="custom-select" id="inputGroupSelect02" (ngModel)="pedido.user" [(ngModel)]="opcionSeleccionado1" [ngModelOptions]="{standalone: true}">
+                        <option value="0">Selecciona una opción</option>
+                        <option selected *ngFor="let usuario of user"  class="form-control" >{{usuario.id}}</option>
+                    </select>
+                    <br>
+                    <!-- <p [hidden]="opcionSeleccionado == '0'">Haz seleccionado la opción # {{ verSeleccion }}</p> -->
+                  </div>    
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="text" [(ngModel)]="pedido.fecha" [ngModelOptions]="{standalone: true}" placeholder="fecha" class="form-control"  [(ngModel)]="opcionSeleccionado2" required>
+            </div>
+        </div>
+        <br>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Estado</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01"  [(ngModel)]="opcionSeleccionado3"  [ngModelOptions]="{standalone: true}">
+              <option value="false">No entregado</option>
+              <option value="true">entregado</option>
+              
+            </select>
+        </div>
+        <br>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Ciudad</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="opcionSeleccionado4"[ngModelOptions]="{standalone: true}">
+              <option selected>Seleccione</option>
+              <option >Mosquera</option>
+              <option >Funza</option>
+              <option >Madrid</option>
+              <option >Facatativa</option>
+              <option >Bogota</option>
+            </select>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="submit" class="btn btn-primary float-rigth" value="Crear">
+            </div>
+        </div>
+        <br>
+        <br>
+    </form>
+</div>

@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Bienvenidos!</h1>
+        </div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="loading">
+        <div class="col-md-12">
+            <div class="spinner-border text-info float-right" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+
+        </div>
+        <br>
+        <br>
+    </div>
+
+    <form (ngSubmit)="login()" id="login">
+        <div class="row">
+            <div class="col-md-12">
+                <input type="text" [(ngModel)]="usuario.username" [ngModelOptions]="{standalone: true}" placeholder="username" class="form-control" required>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="password" [(ngModel)]="usuario.password" [ngModelOptions]="{standalone: true}" placeholder="password" class="form-control" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input class="btn btn-success float-right" type="submit" value="Ingresar">
+            </div>
+        </div>
+    </form>
+    <div class="row" *ngIf="errorInicio">
+        <label class="float-right" style="color: red;">Usuario o password incorrecto.</label>
+    </div>
+        
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="float-right">Si no tienes una cuenta click <a href="#" (click)="crearCuenta()">aqui</a>.</label>
+        </div>
+    </div>
+</div>
