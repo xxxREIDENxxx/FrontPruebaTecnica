@@ -41,7 +41,7 @@ export class DistribuidorComponent implements OnInit {
   }
 
   buscarPedidoServicio() :Observable<any> {
-    console.log("Mostrar pedidos");
+    
     return this.http.get<Pedido[]>("http://localhost:8080/api/pedido/buscar/" + this.usuario.id).pipe(
       catchError(e => "error"));
   }

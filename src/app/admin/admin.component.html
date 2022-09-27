@@ -22,11 +22,25 @@
             <a href="#" (click)="logout()">Cerrar sesion</a>
         </div>
     </div>
+    <br>
+    <h3>Filtrar por Fecha:</h3>
+    <div class="filtrar">
+        Fecha Inicial:
+        <input type="date" [(ngModel)] = "fechaInicial">
+        Fecha Final:
+        <input type="date" [(ngModel)] = "fechaFinal">
+        <div class="col-md-2">
+            <input type="submit" class="btn btn-primary float-rigth" value="filtrar" (click)="filtrar()" >
+        </div>
+        Estado:
+        <input type="checkbox" [(ngModel)]="estadoFiltro" (click)="filtrarEstado()">
+    </div>
 
     <br>
     <br>
     <div class="row">
         <div class="col-md-12">
+            <h4>Tabla Pedidos</h4>
             <table class="table">
                 <thead class="thead-dark">
                   <tr>
@@ -34,13 +48,12 @@
                     <th scope="col">Fecha</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Lugar</th>
-                    <th scope="col">Filtro por</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let pedido of pedidos" >
                     <td >
-                        {{pedido.user}}
+                        {{pedido.user.username}}
                     </td>
                     <td>
                         {{pedido.fecha}}
@@ -59,9 +72,11 @@
               </table>
         </div>
         <br>
-
+        <br>
+        <br>
         <div class="row">
             <div class="col-md-12">
+                <h4>Tabla Distribuidores</h4>
                 <table class="table">
                     <thead class="thead-dark">
                       <tr>
@@ -105,19 +120,19 @@
                     <div class="input-group-append">
                         <label class="input-group-text" for="inputGroupSelect02">Usuario</label>
                       </div>
-                    <select class="custom-select" id="inputGroupSelect02" (ngModel)="pedido.user" [(ngModel)]="opcionSeleccionado1" [ngModelOptions]="{standalone: true}">
+                    <select class="custom-select" id="inputGroupSelect02" [(ngModel)]="pedido.user.id"  [ngModelOptions]="{standalone: true}">
                         <option value="0">Selecciona una opción</option>
                         <option selected *ngFor="let usuario of user"  class="form-control" >{{usuario.id}}</option>
                     </select>
                     <br>
-                    <!-- <p [hidden]="opcionSeleccionado == '0'">Haz seleccionado la opción # {{ verSeleccion }}</p> -->
+                   
                   </div>    
             </div>
         </div>
         <br>
         <div class="row">
             <div class="col-md-12">
-                <input type="text" [(ngModel)]="pedido.fecha" [ngModelOptions]="{standalone: true}" placeholder="fecha" class="form-control"  [(ngModel)]="opcionSeleccionado2" required>
+                <input type="date" [(ngModel)]="pedido.fecha" [ngModelOptions]="{standalone: true}" placeholder="fecha" class="form-control"  required>
             </div>
         </div>
         <br>
@@ -125,7 +140,7 @@
             <div class="input-group-prepend">
               <label class="input-group-text" for="inputGroupSelect01">Estado</label>
             </div>
-            <select class="custom-select" id="inputGroupSelect01"  [(ngModel)]="opcionSeleccionado3"  [ngModelOptions]="{standalone: true}">
+            <select class="custom-select" id="inputGroupSelect01"  [(ngModel)]="pedido.estado"  [ngModelOptions]="{standalone: true}">
               <option value="false">No entregado</option>
               <option value="true">entregado</option>
               
@@ -136,7 +151,7 @@
             <div class="input-group-prepend">
               <label class="input-group-text" for="inputGroupSelect01">Ciudad</label>
             </div>
-            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="opcionSeleccionado4"[ngModelOptions]="{standalone: true}">
+            <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="pedido.lugar"[ngModelOptions]="{standalone: true}">
               <option selected>Seleccione</option>
               <option >Mosquera</option>
               <option >Funza</option>

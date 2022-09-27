@@ -14,26 +14,22 @@ import { User } from '../entity/User';
 })
 export class AdminComponent implements OnInit {
 
-  usuario : any = {};
+  usuario: any = {};
 
-  user:User[]=[];
+  user   : User [] = [];
 
-  pedido:any ={};
+  pedido : any = {};
 
   pedidos   : Pedido [] = [];
   loading   : boolean = false;
-  crear: boolean = false;
- 
-//prueba input
-  opcionSeleccionado1: string = "";
-  opcionSeleccionado2: string = "";
-  opcionSeleccionado3: boolean = false;
-  opcionSeleccionado4: string = "";
-  verUsuario      : string = '';
-  verFecha        : string = '';
-  verEstado       : boolean = false;
-  verCiudad       : string = '';
+  crear     : boolean = false;
+  fechaInicial : Date = new Date('01/01/1900');
+  fechaFinal   : Date = new Date('01/01/1900');
+  estadoFiltro: boolean = false;
 
+
+
+  
   constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
@@ -44,11 +40,10 @@ export class AdminComponent implements OnInit {
       if(this.usuario.rol != false){
         location.href = "/";
       }
-      this.pedido = {lugar:this.pedido.lugar, fecha:this.pedido.fecha,estado:this.pedido.estado,user:this.user}
+      this.pedido = {lugar:this.pedido.lugar, fecha:this.pedido.fecha,estado:this.pedido.estado,user:new User}
       this.buscarPedidos();
       this.buscarUsuarios();
     }
-    
   }
 
   logout(){
@@ -62,7 +57,7 @@ export class AdminComponent implements OnInit {
     (response:Pedido[])=>{
       this.pedidos = response;
       this.loading = false;
-      console.log(response);
+      
     });
 
   }
@@ -75,26 +70,12 @@ export class AdminComponent implements OnInit {
 
   agregar(){
     this.crear = !this.crear;
-    //this.crearPedido();
   }
   
   crearPedido(form:any){
     let formularioValido :boolean = true;
-
-    this.verUsuario = this.opcionSeleccionado1;
-    this.verFecha   = this.opcionSeleccionado2;
-    this.verEstado  = this.opcionSeleccionado3;
-    this.verCiudad  = this.opcionSeleccionado4;
-
+   
     this.buscarUsuarios();
-    console.log("valido");
-    console.log(form);
-    console.log(this.verUsuario);
-    console.log(this.verFecha);
-    console.log(this.verEstado);
-    console.log(this.verCiudad);
-
-    
 
     if(formularioValido){
      this.loading = true;
@@ -110,7 +91,8 @@ export class AdminComponent implements OnInit {
         'Content-Type':'application/json'
       })
     }
-    console.log(this.pedido);
+    this.pedido.estado = false;
+    
     return this.http.post<Pedido[]>("http://localhost:8080/api/pedido/guardar", this.pedido, httpOption);
     
   }
@@ -120,7 +102,7 @@ export class AdminComponent implements OnInit {
     if(pedido){
       alert("Pedido Actualizado exitosamente.");
     }
-    this.pedido = { lugar:this.pedido.lugar, fecha:this.pedido.fecha,estado:this.pedido.estado,user:this.user}  
+    this.pedido = { lugar:this.pedido.lugar, fecha:this.pedido.fecha,estado:this.pedido.estado,user:new User}  
     this.crear = false;
     this.buscarPedidos();
   }
@@ -140,5 +122,43 @@ export class AdminComponent implements OnInit {
     return this.http.get<User[]>("http://localhost:8080/api/rol").pipe(
       catchError(e => "error"));
   }
+
+  filtrar(){
+   if(this.fechaInicial.toString() != 'Mon Jan 01 1900 00:00:00 GMT-0456 (hora estándar de Colombia)' ){
+      if(this.fechaFinal.toString() != 'Mon Jan 01 1900 00:00:00 GMT-0456 (hora estándar de Colombia)'){
+        this.filtrarFecha(this.fechaInicial, this.fechaFinal).subscribe(data => {
+          this.pedidos = data;
+        });
+      }else{
+        alert("Debe seleccionar una fecha Final");
+      }
+    
+   }else{
+    alert("Debe seleccionar una fecha inicial");
+   }
+  }
+
+
+  filtrarFecha(date1: Date, date2: Date):Observable<any>{
+    return this.http.get<Pedido[]>("http://localhost:8080/api/pedido/buscar/" + date1 + "/" + date2).pipe(
+      catchError(e => "error"));
+
+  }
+
+  filtrarEstado(){
+    this.estadoFiltro = !this.estadoFiltro;
+
+    this.filtroEstado(this.estadoFiltro).subscribe(data => {
+      this.pedidos = data;
+    })
+
+  }
+
+  filtroEstado(estado: boolean):Observable<any>{
+    return this.http.get<Pedido[]>("http://localhost:8080/api/pedido/estado/" + estado).pipe(
+      catchError(e => "error"));
+
+  }
+
   
 }
